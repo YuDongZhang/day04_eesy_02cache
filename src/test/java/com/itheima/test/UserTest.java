@@ -46,6 +46,16 @@ public class UserTest {
         in.close();
     }
 
+    @Test
+    public void firstLevelCache(){
+        User user1 = userDao.findById(41);
+        System.out.println(user1);
+        User user2 = userDao.findById(41);
+        System.out.println(user2);
+        System.out.println(user1==user2);
+
+    }
+
     /**
      * 查询所有
      */
