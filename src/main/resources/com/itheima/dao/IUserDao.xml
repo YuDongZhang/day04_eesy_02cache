@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.IUserDao">
+<!-- 定义user resultMap-->
+    <resultMap id="userAccountMap" type="user">
+        <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+        <result property="address" column="address"></result>
+        <result property="sex" column="sex"></result>
+        <result property="birthday" column="birthday"></result>
+        <!-- 配置user对象中accounts 集合的映射 ,oftype 要写全限定类名, 因为取了别名-->
+        <collection property="accounts" ofType="account">
+            <!--这里的 column aid 对应的是数据库取别名 , 不用这个也可以 , 用id也行 , 实际测试中用别名没有查询出来-->
+            <id column="aid" property="id"></id>
+            <result column="uid" property="uid"></result>
+            <result column="money" property="money"></result>
+        </collection>
+    </resultMap>
+
+<!--查询所有-->
+    <select id="findAll" resultMap="userAccountMap">
+        SELECT * FROM USER u LEFT OUTER JOIN  account a  ON u.id = a.uid;
+    </select>
+
+<!--根据id查询用户-->
+    <select id="findById" parameterType="int" resultType="com.itheima.domain.User">
+        select * from USER where id=#{uid};
+    </select>
+
+</mapper>
