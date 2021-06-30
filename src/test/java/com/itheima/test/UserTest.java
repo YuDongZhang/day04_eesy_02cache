@@ -50,8 +50,31 @@ public class UserTest {
         in.close();
     }
 
+    /**
+     * 验证了缓存的存在
+     */
     @Test
     public void firstLevelCache(){
+        //1,根据id查询用户
+        User user1 = userDao.findById(41);
+        System.out.println(user1);
+        //2,更新用户信息
+        user1.setUsername("update user clear cache");
+        user1.setAddress("南京");
+        userDao.updateUser(user1);
+        //3,再次根据id查询用户
+        User user2 = userDao.findById(41);
+        System.out.println(user2);
+        System.out.println(user1==user2);
+
+    }
+
+
+    /**
+     * 验证了缓存的同步,怎么保证缓存数据不变的
+     */
+    @Test
+    public void firstClearCache(){
         User user1 = userDao.findById(41);
         System.out.println(user1);
 
@@ -65,6 +88,7 @@ public class UserTest {
         System.out.println(user1==user2);
 
     }
+
 
     /**
      * 查询所有

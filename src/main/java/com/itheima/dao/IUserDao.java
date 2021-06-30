@@ -26,6 +26,12 @@ public interface IUserDao {
     User findById(Integer userId);
 
     /**
+     *
+     * @param user
+     */
+    void updateUser(User user);
+
+    /**
      * 根据名称模糊查询用户信息
      * @param username
      * @return
