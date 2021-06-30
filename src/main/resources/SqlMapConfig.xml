@@ -6,6 +6,11 @@
     <!-- 配置properties -->
     <properties resource="jdbcConfig.properties">
     </properties>
+    <!-- 开启缓存支持,这一步不做也可以,默认就是true   -->
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+
     <!--别名配置-->
     <!--使用typeAliases配置别名，它只能配置domain中类的别名 -->
     <typeAliases>
