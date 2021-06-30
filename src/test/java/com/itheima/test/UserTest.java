@@ -24,15 +24,19 @@ public class UserTest {
     private InputStream in;
     private SqlSession sqlSession;
     private IUserDao userDao;
+    private SqlSessionFactory factory;
 
     @Before//用于在测试方法执行之前执行
     public void init()throws Exception{
         //1.读取配置文件，生成字节输入流
         in = Resources.getResourceAsStream("SqlMapConfig.xml");
         //2.获取SqlSessionFactory
-        SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(in);
+        factory = new SqlSessionFactoryBuilder().build(in);
         //3.获取SqlSession对象
         sqlSession = factory.openSession(true);//改成true是可以自动提交
+        //sqlSession可以清楚缓存
+//        sqlSession.clearCache();
+
         //4.获取dao的代理对象
         userDao = sqlSession.getMapper(IUserDao.class);
     }
@@ -50,6 +54,12 @@ public class UserTest {
     public void firstLevelCache(){
         User user1 = userDao.findById(41);
         System.out.println(user1);
+
+        sqlSession.close();
+        //再次获取
+        sqlSession = factory.openSession();
+        userDao = sqlSession.getMapper(IUserDao.class);
+
         User user2 = userDao.findById(41);
         System.out.println(user2);
         System.out.println(user1==user2);
